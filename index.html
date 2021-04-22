@@ -46,28 +46,31 @@
 
 					<div class="sidebar__block">
 						<div class="sidebar__settings">
-							<h3>Pool</h3>
-							<!-- Button trigger modal -->
-							<button
-								type="button"
-								class="btn btn-primary pool-modal-btn"
-								data-toggle="modal"
-								data-target="#exampleModal"
-							>
-								Create
-							</button>
+							<div class="d-flex justify-content-between">
+								<h3>Pool</h3>
+								<!-- Button trigger modal -->
+								<div
+									class="d-flex flex-row align-items-center"
+									style="padding: 10px"
+								>
+									<button
+										type="button"
+										class="btn btn-primary mr-1"
+										data-toggle="modal"
+										data-target="#createPool"
+									>
+										<i class="fas fa-plus-circle"></i>
+									</button>
+									<button
+										type="button"
+										class="btn btn-secondary"
+										id="poolReload"
+									>
+										<i class="fas fa-sync-alt"></i>
+									</button>
+								</div>
+							</div>
 							<div class="pool list-group" id="poolList"></div>
-							<iframe
-								id="hiddenframe"
-								name="hiddenframe"
-								style="
-									width: 0px;
-									height: 0px;
-									border: 0px;
-									position: absolute;
-									visibility: hidden;
-								"
-							></iframe>
 						</div>
 					</div>
 					<div class="sidebar__block">
@@ -75,13 +78,24 @@
 						<div class="sidebar__log"></div>
 					</div>
 				</div>
+				<iframe
+					id="hiddenframe"
+					name="hiddenframe"
+					style="
+						width: 0px;
+						height: 0px;
+						border: 0px;
+						position: absolute;
+						visibility: hidden;
+					"
+				></iframe>
 			</div>
 			<!-- End of Sidebar -->
 
 			<!-- Modal -->
 			<div
 				class="modal fade"
-				id="exampleModal"
+				id="createPool"
 				tabindex="-1"
 				aria-labelledby="exampleModalLabel"
 				aria-hidden="true"
@@ -158,10 +172,10 @@
 						<i class="fa fa-bars"></i>
 					</button>
 
+					<h3 id="headerTitle" class="navbar-title m-auto">Select the pool</h3>
 					<!-- Topbar Navbar -->
-					<div class="navbar-nav ml-auto">
+					<div class="navbar-nav">
 						<div class="topbar-divider d-none d-sm-block"></div>
-
 						<!-- Nav Item - User Information -->
 						<div class="user position-relative">
 							<div
@@ -208,22 +222,39 @@
 				<!-- Begin Page Content -->
 				<div class="chart-inner">
 					<div id="chart"></div>
-					<button class="btn btn-primary mr-2 chart-reset" id="resetZoom">
-						Center graph
-					</button>
-					<form class="chart-filter">
-						<div class="form-group">
-							<input
-								type="range"
-								class="form-control-range border-0"
-								id="chartFilter"
-								min="10"
-								max="100"
-								step="10"
-								orient="vertical"
-							/>
+					<div class="btn-group dropleft chart-settings">
+						<button
+							type="button"
+							class="btn btn-primary dropdown-toggle"
+							data-toggle="dropdown"
+							aria-haspopup="true"
+							aria-expanded="false"
+						>
+							<i class="fas fa-cogs"></i>
+						</button>
+						<div class="dropdown-menu">
+							<div class="dropdown-menu-inner">
+								<button class="btn btn-primary chart-reset" id="resetZoom">
+									Center graph
+								</button>
+								<form class="chart-filter">
+									<div class="form-group">
+										<label for="chartFilter">
+											<small>Filter by % </small>
+										</label>
+										<input
+											type="range"
+											class="form-control-range border-0"
+											id="chartFilter"
+											min="10"
+											max="100"
+											step="10"
+										/>
+									</div>
+								</form>
+							</div>
 						</div>
-					</form>
+					</div>
 				</div>
 
 

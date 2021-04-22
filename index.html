@@ -53,21 +53,33 @@
 									class="d-flex flex-row align-items-center"
 									style="padding: 10px"
 								>
-									<button
-										type="button"
-										class="btn btn-primary mr-1"
-										data-toggle="modal"
-										data-target="#createPool"
+									<span
+										data-toggle="tooltip"
+										data-placement="top"
+										title="Add new pool"
 									>
-										<i class="fas fa-plus-circle"></i>
-									</button>
-									<button
-										type="button"
-										class="btn btn-secondary"
-										id="poolReload"
+										<button
+											type="button"
+											class="btn btn-primary mr-1"
+											data-toggle="modal"
+											data-target="#createPool"
+										>
+											<i class="fas fa-plus-circle"></i>
+										</button>
+									</span>
+									<span
+										data-toggle="tooltip"
+										data-placement="top"
+										title="Reload pool list"
 									>
-										<i class="fas fa-sync-alt"></i>
-									</button>
+										<button
+											type="button"
+											class="btn btn-secondary"
+											id="poolReload"
+										>
+											<i class="fas fa-sync-alt"></i>
+										</button>
+									</span>
 								</div>
 							</div>
 							<div class="pool list-group" id="poolList"></div>
@@ -230,11 +242,22 @@
 							aria-haspopup="true"
 							aria-expanded="false"
 						>
-							<i class="fas fa-cogs"></i>
+							<i
+								class="fas fa-cogs"
+								data-toggle="tooltip"
+								data-placement="top"
+								title="Settings for graph view"
+							></i>
 						</button>
 						<div class="dropdown-menu">
 							<div class="dropdown-menu-inner">
-								<button class="btn btn-primary chart-reset" id="resetZoom">
+								<button
+									class="btn btn-primary chart-reset"
+									id="resetZoom"
+									data-toggle="tooltip"
+									data-placement="top"
+									title="Set graph to start position"
+								>
 									Center graph
 								</button>
 								<form

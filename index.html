@@ -237,12 +237,19 @@
 								<button class="btn btn-primary chart-reset" id="resetZoom">
 									Center graph
 								</button>
-								<form class="chart-filter">
+								<form
+									class="chart-filter"
+									enctype="multipart/form-data"
+									method="POST"
+									target="hiddenframe"
+									action="#"
+								>
 									<div class="form-group">
 										<label for="chartFilter">
 											<small>Filter by % </small>
 										</label>
 										<input
+											onchange="this.form.submit();"
 											type="range"
 											class="form-control-range border-0"
 											id="chartFilter"

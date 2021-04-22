@@ -1,0 +1,200 @@
+ {
+     "operators": [{
+             "id": 1,
+             "info": {
+                 "numb": 123,
+                 "description": "Testing new functional. Hi, this is description. And that  all."
+             },
+             "properties": {
+                 "title": "Getting data",
+
+                 "outputs": {
+                     "outs": {
+                         "label": ""
+                     }
+                 },
+                 "inputs": {
+                     "ins": {
+                         "label": ""
+                     }
+                 }
+             }
+         },
+         {
+             "id": 2,
+             "top": 100,
+             "info": {
+                 "numb": 40124,
+                 "description": "Nothing special. You started process and no way anymore"
+             },
+             "properties": {
+                 "title": "Starting process",
+                 "outputs": {
+                     "outs": {
+                         "label": ""
+                     }
+                 },
+                 "inputs": {
+                     "ins": {
+                         "label": ""
+                     }
+                 }
+             }
+         },
+         {
+             "id": 3,
+             "top": 200,
+             "left": -200,
+             "info": {
+                 "numb": 4440124,
+                 "description": "Are you tired? Why u thinking about that on monday?"
+             },
+             "properties": {
+                 "title": "Thinking about next weekend",
+                 "outputs": {
+                     "outs": {
+                         "label": "sad"
+                     }
+                 },
+                 "inputs": {
+                     "ins": {
+                         "label": "sad"
+                     }
+                 }
+             }
+         },
+         {
+             "id": 4,
+             "top": 300,
+             "left": -200,
+             "info": {
+                 "numb": 4440124,
+                 "description": "Shit happened."
+             },
+             "properties": {
+                 "title": "All gone wrongs",
+                 "outputs": {
+                     "outs": {
+                         "label": ""
+                     }
+                 },
+                 "inputs": {
+                     "ins": {
+                         "label": ""
+                     }
+                 }
+             }
+         },
+         {
+             "id": 5,
+             "top": 400,
+             "left": -200,
+             "info": {
+                 "numb": 666,
+                 "description": "nice. but no need. please go to work"
+             },
+             "properties": {
+                 "title": "You cry and wanna die",
+                 "outputs": {
+                     "outs": {
+                         "label": ""
+                     }
+                 },
+                 "inputs": {
+                     "ins": {
+                         "label": ""
+                     }
+                 }
+             }
+         },
+         {
+             "id": 6,
+             "top": 350,
+             "left": 0,
+             "info": {
+                 "numb": 1337,
+                 "description": "wow, you countine! awesome"
+             },
+             "properties": {
+                 "title": "you countine work",
+                 "outputs": {
+                     "outs": {
+                         "label": ""
+                     }
+                 },
+                 "inputs": {
+                     "ins": {
+                         "label": ""
+                     }
+                 }
+             }
+         },
+         {
+             "id": 7,
+             "top": 650,
+             "left": 0,
+             "info": {
+                 "numb": 9999999999,
+                 "description": "you get achivment for that. take candy for that"
+             },
+             "properties": {
+                 "title": "you finished and grats to you",
+                 "outputs": {
+                     "outs": {
+                         "label": ""
+                     }
+                 },
+                 "inputs": {
+                     "ins": {
+                         "label": ""
+                     }
+                 }
+             }
+         }
+     ],
+
+     "links": [{
+         "fromOperator": "1",
+         "fromConnector": "outs",
+         "toOperator": "2",
+         "toConnector": "ins"
+     }, {
+         "fromOperator": "2",
+         "fromConnector": "outs",
+         "toOperator": "3",
+         "toConnector": "ins"
+     }, {
+         "fromOperator": "3",
+         "fromConnector": "outs",
+         "toOperator": "4",
+         "toConnector": "ins"
+
+     }, {
+         "fromOperator": "4",
+         "fromConnector": "outs",
+         "toOperator": "5",
+         "toConnector": "ins"
+
+     }, {
+         "fromOperator": "3",
+         "fromConnector": "outs",
+         "toOperator": "6",
+         "toConnector": "ins"
+     }, {
+         "fromOperator": "2",
+         "fromConnector": "outs",
+         "toOperator": "6",
+         "toConnector": "ins"
+     }, {
+         "fromOperator": "6",
+         "fromConnector": "outs",
+         "toOperator": "7",
+         "toConnector": "ins"
+     }, {
+         "fromOperator": "5",
+         "fromConnector": "outs",
+         "toOperator": "1",
+         "toConnector": "ins"
+     }]
+
+ }

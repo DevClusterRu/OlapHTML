@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no"
+		/>
+
+		<title>MVP</title>
+		<link rel="stylesheet" href="/assets/css/jquery.flowchart.min.css" />
+		<!-- Custom fonts for this template-->
+		<link href="/assets/css/all.min.css" rel="stylesheet" type="text/css" />
+		<!-- Custom styles for this template-->
+		<link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="/assets/css/style.css" />
+
+		<script src="/assets/js/jquery-1.10.2.js"></script>
+		<script src="/assets/js/jquery-ui.js"></script>
+		<script src="/assets/js/jquery.panzoom.min.js"></script>
+		<script src="/assets/js/jquery.mousewheel.min.js"></script>
+	</head>
+
+	<body id="page-top">
+		<!-- Page Wrapper -->
+		<main id="wrapper">
+			<!-- Sidebar -->
+			<div class="sidebar bg-white shadow" id="sidebar">
+				<div class="sidebar--inner">
+					<button
+						id="sidebarBtn"
+						class="sidebarBtn btn bg-white d-lg-none rounded-circle mr-3"
+					>
+						<i class="fa fa-times"></i>
+					</button>
+					<!-- Sidebar - Brand -->
+					<a
+						class="navbar sidebar-brand d-flex align-items-center justify-content-center bg-primary text-white"
+						href="index.html"
+					>
+						<div class="sidebar-brand-icon rotate-n-15">
+							<i class="fas fa-laugh-wink"></i>
+						</div>
+						<div class="sidebar-brand-text mx-3">MVP</div>
+					</a>
+
+					<div class="sidebar__block">
+						<div class="sidebar__settings">
+							<h3>Pool</h3>
+							<!-- Button trigger modal -->
+							<button
+								type="button"
+								class="btn btn-primary pool-modal-btn"
+								data-toggle="modal"
+								data-target="#exampleModal"
+							>
+								Create
+							</button>
+							<div class="pool list-group" id="poolList">
+								<div
+									class="list-group-item list-group-item-action active d-flex justify-content-between flex-row align-items-center p-0"
+								>
+									<a
+										href="#"
+										class="d-flex flex-column justify-content-center w-50 p-2"
+										style="color: inherit"
+									>
+										<div class="d-flex w-100 justify-content-between">
+											<h6 class="mb-1">zavod #55</h6>
+										</div>
+
+										<small>And some small print.</small>
+									</a>
+									<div class="d-flex flex-column p-2">
+										<button class="btn btn-light" id="">
+											CSV load
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="sidebar__block">
+						<h3>Log</h3>
+						<div class="sidebar__log"></div>
+					</div>
+				</div>
+			</div>
+			<!-- End of Sidebar -->
+
+			<!-- Modal -->
+			<div
+				class="modal fade"
+				id="exampleModal"
+				tabindex="-1"
+				aria-labelledby="exampleModalLabel"
+				aria-hidden="true"
+			>
+				<div class="modal-dialog">
+					<form class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Create pool</h5>
+							<button
+								type="button"
+								class="close"
+								data-dismiss="modal"
+								aria-label="Close"
+							>
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div class="form-group">
+								<label for="exampleInputEmail1">Title</label>
+								<input
+									type="email"
+									class="form-control"
+									id="newPoolName"
+									aria-describedby="emailHelp"
+									required
+								/>
+							</div>
+							<div class="form-group">
+								<label for="exampleInputPassword1">Description</label>
+								<textarea
+									class="form-control"
+									id="newPoolDescription"
+									rows="3"
+								></textarea>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button
+								type="button"
+								class="btn btn-secondary"
+								data-dismiss="modal"
+							>
+								Close
+							</button>
+							<button
+								type="button"
+								class="btn btn-primary"
+								data-dismiss="modal"
+								id="createNewPool"
+							>
+								Create
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<!-- Content Wrapper -->
+			<div
+				id="content-wrapper"
+				class="content-wrapper"
+				class="d-flex flex-column"
+			>
+				<!-- Topbar -->
+				<nav
+					class="navbar navbar-expand navbar-light bg-white topbar static-top shadow-sm"
+				>
+					<!-- Sidebar Toggle (Topbar) -->
+					<button
+						id="sidebarBtn"
+						class="sidebarBtn btn btn-link d-lg-none rounded-circle mr-3"
+					>
+						<i class="fa fa-bars"></i>
+					</button>
+
+					<!-- Topbar Navbar -->
+					<div class="navbar-nav ml-auto">
+						<div class="topbar-divider d-none d-sm-block"></div>
+
+						<!-- Nav Item - User Information -->
+						<div class="user position-relative">
+							<div
+								aria-haspopup="true"
+								aria-expanded="false"
+								href="#"
+								id="userDropdown"
+								role="button"
+								data-toggle="dropdown"
+							>
+								<img
+									width="50"
+									height="50"
+									class="img-profile rounded-circle"
+									src="/assets/img/undraw_profile.svg"
+								/>
+							</div>
+							<!-- Dropdown - User Information -->
+							<div
+								class="dropdown-menu dropdown-menu-right shadow animated--grow-in text-center"
+								aria-labelledby="userDropdown"
+							>
+								<a class="dropdown-item" href="#">
+									<i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+									Profile
+								</a>
+								<a
+									class="dropdown-item"
+									href="#"
+									data-toggle="modal"
+									data-target="#logoutModal"
+								>
+									<i
+										class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"
+									></i>
+									Logout
+								</a>
+							</div>
+						</div>
+					</div>
+				</nav>
+				<!-- End of Topbar -->
+
+				<!-- Begin Page Content -->
+				<div class="chart-inner">
+					<div id="chart"></div>
+					<button class="btn btn-primary mr-2 chart-reset" id="resetZoom">
+						Center graph
+					</button>
+					<form class="chart-filter">
+						<div class="form-group">
+							<input
+								type="range"
+								class="form-control-range border-0"
+								id="chartFilter"
+								min="10"
+								max="100"
+								step="10"
+								orient="vertical"
+							/>
+						</div>
+					</form>
+				</div>
+
+
+				<!-- End of Footer -->
+			</div>
+			<!-- End of Content Wrapper -->
+		</main>
+		<!-- End of Page Wrapper -->
+
+		<!-- Logout Modal-->
+		<div
+			class="modal fade"
+			id="logoutModal"
+			tabindex="-1"
+			role="dialog"
+			aria-labelledby="exampleModalLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">
+							Ready to Leave?
+						</h5>
+						<button
+							class="close"
+							type="button"
+							data-dismiss="modal"
+							aria-label="Close"
+						>
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						Select "Logout" below if you are ready to end your
+						current session.
+					</div>
+					<div class="modal-footer">
+						<button
+							class="btn btn-secondary"
+							type="button"
+							data-dismiss="modal"
+						>
+							Cancel
+						</button>
+						<a class="btn btn-primary" href="login.html">Logout</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Bootstrap core JavaScript-->
+		<script src="/assets/js/bootstrap.bundle.min.js"></script>
+
+		<!-- Custom scripts for all pages-->
+		<script src="/assets/js/jquery.flowchart.min.js"></script>
+		<script src="/assets/js/script.min.js"></script>
+	</body>
+</html>

@@ -1,0 +1,67 @@
+{
+    "operators": [{
+        "id": 0,
+        "top": 0,
+        "left": 0,
+        "info": {
+            "numb": 6,
+            "description": "on"
+        },
+        "properties": {
+            "title": "",
+            "outputs": {
+                "outs": {
+                    "label": ""
+                }
+            },
+            "inputs": {
+                "ins": {
+                    "label": ""
+                }
+            }
+        }
+    }, {
+        "id": 1,
+        "top": 100,
+        "left": 0,
+        "info": {
+            "numb": 5,
+            "description": "off"
+        },
+        "properties": {
+            "title": "123",
+            "outputs": {
+                "outs": {
+                    "label": ""
+                }
+            },
+            "inputs": {
+                "ins": {
+                    "label": ""
+                }
+            }
+        }
+    }, {
+        "id": 2,
+        "top": 200,
+        "left": 0,
+        "info": {
+            "numb": 5,
+            "description": "off"
+        },
+        "properties": {
+            "title": "123",
+            "outputs": {
+                "outs": {
+                    "label": ""
+                }
+            },
+            "inputs": {
+                "ins": {
+                    "label": ""
+                }
+            }
+        }
+    }],
+    "links": null
+}

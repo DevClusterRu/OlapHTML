@@ -229,7 +229,7 @@ jQuery(function ($) {
                   <input type="hidden" name="pool" value="${el._id}">
                   <label class="btn btn-danger m-0 list-group-item-delete"  data-toggle="tooltip"  title="Delete this link">
                     <input type="submit" name="filename" hidden onchange="
-                    this.redrawLinksLayer();">
+                    $flowchart.flowchart('redrawLinksLayer')">
                     <i class="fas fa-trash-alt"></i>
                   </label>
                 </form>

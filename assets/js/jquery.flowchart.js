@@ -209,6 +209,7 @@ jQuery(function ($) {
         }
       }
       this.data.links = {};
+      $('.linksList').html('')
       for (var linkId in data.links) {
         if (data.links.hasOwnProperty(linkId)) {
           this.createLink(linkId, data.links[linkId]);
@@ -227,7 +228,8 @@ jQuery(function ($) {
                 <form enctype="multipart/form-data" method="POST" target="hiddenframe" action="/api/linkRemove?id=${el._id}" class="d-flex flex-column justify-content-center py-2">
                   <input type="hidden" name="pool" value="${el._id}">
                   <label class="btn btn-danger m-0 list-group-item-delete"  data-toggle="tooltip"  title="Delete this link">
-                    <input type="submit" name="filename" hidden >
+                    <input type="submit" name="filename" hidden onchange="
+                    this.redrawLinksLayer();">
                     <i class="fas fa-trash-alt"></i>
                   </label>
                 </form>
@@ -245,7 +247,7 @@ jQuery(function ($) {
         $('#linkCreateParent').html('')
         $('#linkCreateChild').html('')
         this.data.operators.forEach(element => {
-          elItem = `<option value="${element.id}">${element.properties.title}</option>`
+          elItem = `<option value="${element.properties.title}">${element.properties.title}</option>`
           $('#linkCreateParent').append(elItem)
           $('#linkCreateChild').append(elItem)
         });

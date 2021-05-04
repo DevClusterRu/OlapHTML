@@ -228,7 +228,7 @@ jQuery(function ($) {
                 <form enctype="multipart/form-data" method="POST" target="hiddenframe" action="/api/linkRemove?linkId=${el._id}" class="d-flex flex-column justify-content-center py-2">
                   <input type="hidden" name="link" value="${el._id}">
                   <label class="btn btn-danger m-0 list-group-item-delete"  data-toggle="tooltip" title="Delete this link">
-                    <input type="submit" name="filename" hidden onchange="$("#chart").flowchart('redrawLinksLayer'); this.form.submit()">
+                    <input type="submit" name="filename" hidden onchange=" this.form.submit()">
                     <i class="fas fa-trash-alt"></i>
                   </label>
                 </form>

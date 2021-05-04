@@ -227,11 +227,8 @@ jQuery(function ($) {
               <div class="d-flex list-group-item-controls">
                 <form enctype="multipart/form-data" method="POST" target="hiddenframe" action="/api/linkRemove?linkId=${el._id}" class="d-flex flex-column justify-content-center py-2">
                   <input type="hidden" name="link" value="${el._id}">
-                  <label class="btn btn-danger m-0 list-group-item-delete"  data-toggle="tooltip"  title="Delete this link" onclick=" setTimeout(function(){
-                    this.closest('.list-group-item-action').remove();
-                    $('#chart').flowchart('redrawLinksLayer');"
-                  }, 1000);">
-                    <input type="submit" name="filename" hidden onchange="this.form.submit()>
+                  <label class="btn btn-danger m-0 list-group-item-delete"  data-toggle="tooltip" title="Delete this link">
+                    <input type="submit" name="filename" hidden onchange="$("#chart").flowchart('redrawLinksLayer'); this.form.submit()">
                     <i class="fas fa-trash-alt"></i>
                   </label>
                 </form>

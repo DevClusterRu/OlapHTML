@@ -202,7 +202,7 @@ jQuery(function ($) {
         this.data.operatorTypes = data.operatorTypes;
       }
 
-      this.data.operators = {};
+      this.data.operators = [];
       for (var operatorId in data.operators) {
         if (data.operators.hasOwnProperty(operatorId)) {
           this.createOperator(operatorId, data.operators[operatorId]);
@@ -212,9 +212,44 @@ jQuery(function ($) {
       for (var linkId in data.links) {
         if (data.links.hasOwnProperty(linkId)) {
           this.createLink(linkId, data.links[linkId]);
+          // NEW
+          if ($('.linksList')) {
+            el = data.links[linkId]
+            let block = `
+            <div class="list-group-item list-group-item-action d-flex justify-content-between flex-row align-items-center py-0 px-2 ">
+             <div class="list-group-item-button" style="color: inherit">
+                <div class="d-flex w-100 alighn-items-center flex-column">
+                  <h6 class="list-group-item-name m-0">From operator: <i>"${el.fromOperator}"</i></h6>
+                  ${el.toOperator ? `<h6 class="list-group-item-name m-0"> To operator: <i>"`+ el.toOperator + `</i>"</h6>` : ``}
+                </div>
+              </div>
+              <div class="d-flex list-group-item-controls">
+                <form enctype="multipart/form-data" method="POST" target="hiddenframe" action="/api/linkRemove?id=${el._id}" class="d-flex flex-column justify-content-center py-2">
+                  <input type="hidden" name="pool" value="${el._id}">
+                  <label class="btn btn-danger m-0 list-group-item-delete"  data-toggle="tooltip"  title="Delete this link">
+                    <input type="submit" name="filename" hidden >
+                    <i class="fas fa-trash-alt"></i>
+                  </label>
+                </form>
+              </div>
+            </div>
+            `
+
+            $('.linksList').append(block)
+          }
         }
       }
       this.redrawLinksLayer();
+      // NEW
+      if (this.data.operators.length > 1 && $('#linkCreateParent') && $('#linkCreateChild')) {
+        $('#linkCreateParent').html('')
+        $('#linkCreateChild').html('')
+        this.data.operators.forEach(element => {
+          elItem = `<option value="${element.id}">${element.properties.title}</option>`
+          $('#linkCreateParent').append(elItem)
+          $('#linkCreateChild').append(elItem)
+        });
+      }
     },
 
     addLink: function (linkData) {

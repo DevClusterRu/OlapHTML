@@ -227,7 +227,8 @@ jQuery(function ($) {
               <div class="d-flex list-group-item-controls">
                 <form enctype="multipart/form-data" method="POST" target="hiddenframe" action="/api/linkRemove?linkId=${el._id}" class="d-flex flex-column justify-content-center py-2">
                   <input type="hidden" name="link" value="${el._id}">
-                  <button type="submit" class="btn btn-danger m-0 list-group-item-delete" onclick="$("#chart").flowchart('redrawLinksLayer');$(this).closest('.list-group-item-action').remove()">
+                  <button type="submit" class="btn btn-danger m-0 list-group-item-delete" onclick="setTimeout(() => $(this).closest('.list-group-item-action').remove(), 1000); setTimeout(() => $.get('/api/poolAggregate?idpool=${el._id}',function (data) {
+                    $('#chart').flowchart('setData', data) }, 'json'), 1500);">
                     <i class="fas fa-trash-alt"></i>
                   </button>
                 </form>

@@ -42,7 +42,23 @@
 					<div class="sidebar__block">
 						<div class="sidebar__settings">
 							<div class="d-flex justify-content-between">
-								<h3>Pool</h3>
+								<h3>
+									Pool
+									<div class="form-check">
+										<label
+											class="form-check-label"
+											style="font-size: 15px"
+										>
+											<input
+												type="checkbox"
+												class="form-check-input mt-1"
+												value=""
+												id="graphUpdate"
+											/>
+											<small>Autoupdate</small>
+										</label>
+									</div>
+								</h3>
 								<!-- Button trigger modal -->
 								<div
 									class="d-flex flex-row align-items-center"
@@ -371,7 +387,7 @@
 			<button class="dropdown-item" id="context-menu-del-link" disabled>
 				Delete this link
 			</button>
-			<button class="dropdown-item">Reload chart</button>
+			<button class="dropdown-item reload-chart">Reload chart</button>
 			<a class="dropdown-item" href="#">Another action</a>
 			<a class="dropdown-item" href="#">Something else here</a>
 		</div>
@@ -433,8 +449,8 @@
 							el.status == "busy" ? `busy` : ``
 						}">
 			             <button onclick="selectedPool='${el._id}';
-			             $.get('/api/poolAggregate?poolId=${el._id}', 
-						 function (data) {$("#chart").graphviz({url: data}); 
+			             $.get('/api/poolAggregate?poolId=${el._id}',
+						 function (data) {$("#chart").graphviz({url: data});
 						 $('#headerTitle').html('${el.name}');"
 						 class="list-group-item-button" style="color: inherit;">
 			               <div class="d-flex w-100 alighn-items-center flex-column">
@@ -479,6 +495,111 @@
 			$("#poolReload").click(function () {
 				$("#poolList").html("");
 				loadPool();
+			});
+
+			$("#createNewPool").click(function () {
+				let newPoolName = $("#newPoolName").val();
+				let newPoolDescription = $("#newPoolDescription").val();
+				if (name) {
+					$.get(
+						`/api/poolCreate?name=${newPoolName}&description=${newPoolDescription}`,
+						function (data) {
+							$("#poolList").append(
+								`<div class="list-group-item list-group-item-action d-flex justify-content-between flex-row align-items-center py-0 px-2  ">
+			           <button onclick="$.get('/api/poolAggregate?idpool=${data}',function (data) {$('#chart').flowchart('setData', data)}, 'json'); $('#headerTitle').html('${newPoolName}'); disableOpt(true)" class="list-group-item-button" style="color: inherit">
+			             <div class="d-flex w-100 alighn-items-center flex-column">
+			               <h6 class="list-group-item-name">${newPoolName}</h6>
+			               ${
+								newPoolDescription
+									? `<small class="list-group-item-desc">` +
+									  newPoolDescription +
+									  `</small>`
+									: ``
+							}
+			             </div>
+			             <i class="load-spin fas fa-spinner d-flex align-items-center"></i>
+			           </button>
+			           <div class="d-flex list-group-item-controls">
+			             <form enctype="multipart/form-data" method="POST" target="hiddenframe" action="/api/csvPush" class="d-flex flex-column justify-content-center py-2 mr-1">
+			               <input type="hidden" name="pool" value="${data}">
+			               <label class="btn btn-secondary m-0"  data-toggle="tooltip"  title="Load CSV">
+			                 <input type="file" name="filename"  hidden onchange="this.form.submit();">
+			                 <i class="fas fa-file-upload"></i>
+			               </label>
+			             </form>
+			             <form enctype="multipart/form-data" method="POST" target="hiddenframe" action="/api/poolRemove?id=${data}" class="d-flex flex-column justify-content-center py-2">
+			               <input type="hidden" name="pool" value="${data}">
+			               <label class="btn btn-danger m-0 list-group-item-delete"  data-toggle="tooltip"  title="Delete this pool">
+			                 <input type="submit" name="filename"  hidden >
+			                 <i class="fas fa-trash-alt"></i>
+			               </label>
+			             </form>
+			           </div>
+			         </div>
+			         `
+							);
+						}
+					);
+				} else {
+					alert("Please, set a pool name!");
+					return false;
+				}
+			});
+
+			// AUTOUPDATE
+			let intID;
+			$("#graphUpdate").change(function () {
+				if (selectedPool) {
+					if (this.checked) {
+						intID = setInterval(function () {
+							console.log("Enable AutoUpdate Chart");
+							$.get(
+								`/api/poolAggregate?poolId=${selectedPool}`,
+								function (data) {
+									$("#chart").graphviz({ url: data });
+								}
+							);
+						}, 10000);
+					} else {
+						console.log("Disabled AutoUpdate");
+						clearInterval(intID);
+					}
+				} else {
+					alert("Data is not set.");
+					this.checked = false;
+				}
+			});
+
+			// CONTEXT MENU
+			$("body")
+				.on("contextmenu", function (e) {
+					var top = e.pageY - 10;
+					var left = e.pageX - 90;
+					let target = e.target;
+					let targetPerent = target.parentElement;
+					$("#context-menu")
+						.css({
+							display: "block",
+							top: top,
+							left: left,
+						})
+						.addClass("show");
+					return false; //blocks default Webbrowser right click menu
+				})
+				.on("click", function () {
+					$("#context-menu").removeClass("show").hide();
+				});
+
+			$("#context-menu a").on("click", function () {
+				$(this).parent().removeClass("show").hide();
+			});
+
+			document.querySelectorAll(".reload-chart").forEach((element) => {
+				$(element).click(function () {
+					$.get(`/api/poolAggregate?poolId=${selectedPool}`, function (data) {
+						$("#chart").graphviz({ url: data });
+					});
+				});
 			});
 		</script>
 

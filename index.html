@@ -439,6 +439,7 @@
 			// /assets/js/Pool.json
 
 			function loadPool() {
+				$("#poolList").html("");
 				$.get("/api/poolList", function (data) {
 					console.log(data);
 					let container = $("#poolList");
@@ -493,14 +494,13 @@
 			loadPool();
 
 			$("#poolReload").click(function () {
-				$("#poolList").html("");
 				loadPool();
 			});
 
 			$("#createNewPool").click(function () {
 				let newPoolName = $("#newPoolName").val();
 				let newPoolDescription = $("#newPoolDescription").val();
-				if (name) {
+				if (newPoolName) {
 					$.get(
 						`/api/poolCreate?name=${newPoolName}&description=${newPoolDescription}`,
 						function (data) {

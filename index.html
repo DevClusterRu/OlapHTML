@@ -406,13 +406,11 @@
 		<!-- Bootstrap core JavaScript-->
 
 		<script type="text/javascript">
-			$(document).ready(function () {
+			function initChart(url) {
 				$("#chart").graphviz({
-					// url: "/assets/img/temp/demo.svg",
+					url: url,
 					// url: "/assets/img/temp/small.svg",
-					// url: "/assets/img/temp/graph.svg",
-					url: "",
-					// zoom: false,
+					zoom: false,
 					ready: function () {
 						var gv = this;
 						gv.nodes().click(function () {
@@ -431,7 +429,7 @@
 						});
 					},
 				});
-			});
+			}
 
 			// /api/poolAggregate?poolId=${el._id}
 			// /assets/js/dataTest.json
@@ -449,10 +447,12 @@
 			           <div class="list-group-item list-group-item-action d-flex justify-content-between flex-row align-items-center py-0 px-2  ${
 							el.status == "busy" ? `busy` : ``
 						}">
-			             <button onclick="selectedPool='${el._id}';
-			             $.get('/api/poolAggregate?poolId=${el._id}',
-						 function (data) {$("#chart").graphviz({url: data});
-						 $('#headerTitle').html('${el.name}');"
+			             <button onclick="selectedPool=${el._id};
+									$.get('/api/poolAggregate?poolId=${el._id}',
+									function (data) {
+										initChart(data);
+										$('#headerTitle').html('${el.name}')
+									});"
 						 class="list-group-item-button" style="color: inherit;">
 			               <div class="d-flex w-100 alighn-items-center flex-column">
 			                 <h6 class="list-group-item-name">${el.name}</h6>
@@ -495,6 +495,7 @@
 
 			$("#poolReload").click(function () {
 				loadPool();
+				// initChart("/assets/img/temp/small.svg");
 			});
 
 			$("#createNewPool").click(function () {
@@ -506,7 +507,7 @@
 						function (data) {
 							$("#poolList").append(
 								`<div class="list-group-item list-group-item-action d-flex justify-content-between flex-row align-items-center py-0 px-2  ">
-			           <button onclick="$.get('/api/poolAggregate?idpool=${data}',function (data) {$('#chart').flowchart('setData', data)}, 'json'); $('#headerTitle').html('${newPoolName}'); disableOpt(true)" class="list-group-item-button" style="color: inherit">
+			           <button onclick="$.get('/api/poolAggregate?poolId=${data}',function (data) {initChart(data);); $('#headerTitle').html('${newPoolName}'); disableOpt(true)" class="list-group-item-button" style="color: inherit">
 			             <div class="d-flex w-100 alighn-items-center flex-column">
 			               <h6 class="list-group-item-name">${newPoolName}</h6>
 			               ${
@@ -556,7 +557,7 @@
 							$.get(
 								`/api/poolAggregate?poolId=${selectedPool}`,
 								function (data) {
-									$("#chart").graphviz({ url: data });
+									initChart(data);
 								}
 							);
 						}, 10000);
@@ -571,36 +572,36 @@
 			});
 
 			// CONTEXT MENU
-			$("body")
-				.on("contextmenu", function (e) {
-					var top = e.pageY - 10;
-					var left = e.pageX - 90;
-					let target = e.target;
-					let targetPerent = target.parentElement;
-					$("#context-menu")
-						.css({
-							display: "block",
-							top: top,
-							left: left,
-						})
-						.addClass("show");
-					return false; //blocks default Webbrowser right click menu
-				})
-				.on("click", function () {
-					$("#context-menu").removeClass("show").hide();
-				});
+			// $("body")
+			// 	.on("contextmenu", function (e) {
+			// 		var top = e.pageY - 10;
+			// 		var left = e.pageX - 90;
+			// 		let target = e.target;
+			// 		let targetPerent = target.parentElement;
+			// 		$("#context-menu")
+			// 			.css({
+			// 				display: "block",
+			// 				top: top,
+			// 				left: left,
+			// 			})
+			// 			.addClass("show");
+			// 		return false; //blocks default Webbrowser right click menu
+			// 	})
+			// 	.on("click", function () {
+			// 		$("#context-menu").removeClass("show").hide();
+			// 	});
 
-			$("#context-menu a").on("click", function () {
-				$(this).parent().removeClass("show").hide();
-			});
+			// $("#context-menu a").on("click", function () {
+			// 	$(this).parent().removeClass("show").hide();
+			// });
 
-			document.querySelectorAll(".reload-chart").forEach((element) => {
-				$(element).click(function () {
-					$.get(`/api/poolAggregate?poolId=${selectedPool}`, function (data) {
-						$("#chart").graphviz({ url: data });
-					});
-				});
-			});
+			// document.querySelectorAll(".reload-chart").forEach((element) => {
+			// 	$(element).click(function () {
+			// 		$.get(`/api/poolAggregate?poolId=${selectedPool}`, function (data) {
+			// 			$("#chart").graphviz({ url: data });
+			// 		});
+			// 	});
+			// });
 		</script>
 
 	</body>

@@ -8,17 +8,12 @@
 		/>
 
 		<title>MVP</title>
-		<link rel="stylesheet" href="/assets/css/jquery.flowchart.min.css" />
+		<link rel="stylesheet" href="/assets/css/graphviz.svg.css" />
 		<!-- Custom fonts for this template-->
 		<link href="/assets/css/all.min.css" rel="stylesheet" type="text/css" />
 		<!-- Custom styles for this template-->
 		<link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
 		<link rel="stylesheet" href="/assets/css/style.css" />
-
-		<script src="/assets/js/jquery-1.10.2.js"></script>
-		<script src="/assets/js/jquery-ui.js"></script>
-		<script src="/assets/js/jquery.panzoom.min.js"></script>
-		<script src="/assets/js/jquery.mousewheel.min.js"></script>
 	</head>
 
 	<body id="page-top">
@@ -85,7 +80,10 @@
 							<div class="pool list-group" id="poolList"></div>
 						</div>
 					</div>
-					<div class="sidebar__block tabs">
+					<div
+						class="sidebar__block tabs"
+						style="opacity: 0.6; pointer-events: none"
+					>
 						<nav>
 							<div class="nav nav-tabs" id="nav-tab" role="tablist">
 								<a
@@ -106,6 +104,7 @@
 									role="tab"
 									aria-controls="nav-profile"
 									aria-selected="false"
+									aria-disabled="true"
 									>Create Link</a
 								>
 								<a
@@ -178,11 +177,7 @@
 			<!-- End of Sidebar -->
 
 			<!-- Content Wrapper -->
-			<div
-				id="content-wrapper"
-				class="content-wrapper"
-				class="d-flex flex-column"
-			>
+			<div id="content-wrapper" class="content-wrapper">
 				<!-- Topbar -->
 				<nav
 					class="navbar navbar-expand navbar-light bg-white topbar static-top shadow-sm"
@@ -245,69 +240,6 @@
 				<!-- Begin Page Content -->
 				<div class="chart-inner">
 					<div id="chart"></div>
-					<div class="btn-group dropleft chart-settings">
-						<button
-							type="button"
-							class="btn btn-primary dropdown-toggle"
-							data-toggle="dropdown"
-							aria-haspopup="true"
-							aria-expanded="false"
-						>
-							<i
-								class="fas fa-cogs"
-								data-toggle="tooltip"
-								data-placement="top"
-								title="Settings for graph view"
-							></i>
-						</button>
-						<div class="dropdown-menu">
-							<div class="dropdown-menu-inner">
-								<button
-									class="btn btn-primary chart-reset"
-									id="resetZoom"
-									data-toggle="tooltip"
-									data-placement="top"
-									title="Set graph to start position"
-								>
-									Center graph
-								</button>
-								<form
-									class="chart-filter"
-									enctype="multipart/form-data"
-									method="POST"
-									target="hiddenframe"
-									action="#"
-								>
-									<div class="form-group">
-										<label for="chartFilter">
-											<small>Filter by % </small>
-										</label>
-										<input
-											onchange="this.form.submit();"
-											type="range"
-											class="form-control-range border-0"
-											id="chartFilter"
-											min="10"
-											max="100"
-											step="10"
-										/>
-									</div>
-								</form>
-
-								<div class="form-check">
-									<label class="form-check-label">
-										<input
-											type="checkbox"
-											class="form-check-input"
-											value=""
-											id="graphUpdate"
-										/>
-										Autoupdate
-									</label>
-								</div>
-							</div>
-						</div>
-					</div>
 				</div>
 
 				<!-- End of Footer -->
@@ -435,15 +367,120 @@
 			</div>
 		</div>
 
+		<div class="dropdown-menu dropdown-menu-sm" id="context-menu">
+			<button class="dropdown-item" id="context-menu-del-link" disabled>
+				Delete this link
+			</button>
+			<button class="dropdown-item">Reload chart</button>
+			<a class="dropdown-item" href="#">Another action</a>
+			<a class="dropdown-item" href="#">Something else here</a>
+		</div>
+
 		<script>
 			let selectedPool;
 		</script>
-		<!-- Bootstrap core JavaScript-->
-		<script src="/assets/js/bootstrap.bundle.min.js"></script>
 
-		<!-- Custom scripts for all pages-->
-		<!-- <script src="/assets/js/jquery.flowchart.min.js"></script> -->
-		<script src="/assets/js/jquery.flowchart.js"></script>
-		<script src="/assets/js/script.min.js"></script>
+		<script src="/assets/js/jquery-2.1.3.min.js"></script>
+		<script src="/assets/js/jquery.mousewheel.min.js"></script>
+		<script src="/assets/js/jquery.color.js"></script>
+		<script src="/assets/js/bootstrap.bundle.min.js"></script>
+		<script src="/assets/js/bootstrap.min.js"></script>
+		<script src="/assets/js/jquery.graphviz.svg.js"></script>
+
+		<!-- Bootstrap core JavaScript-->
+
+		<script type="text/javascript">
+			$(document).ready(function () {
+				$("#chart").graphviz({
+					// url: "/assets/img/temp/demo.svg",
+					// url: "/assets/img/temp/small.svg",
+					// url: "/assets/img/temp/graph.svg",
+					url: "",
+					// zoom: false,
+					ready: function () {
+						var gv = this;
+						gv.nodes().click(function () {
+							var $set = $();
+							$set.push(this);
+							$set = $set.add(gv.linkedFrom(this, true));
+							$set = $set.add(gv.linkedTo(this, true));
+							console.log($set);
+							gv.highlight($set, true);
+							gv.bringToFront($set);
+						});
+						$(document).keydown(function (evt) {
+							if (evt.keyCode == 27) {
+								gv.highlight();
+							}
+						});
+					},
+				});
+			});
+
+			// /api/poolAggregate?poolId=${el._id}
+			// /assets/js/dataTest.json
+			// /api/poolList
+			// /assets/js/Pool.json
+
+			function loadPool() {
+				$.get("/api/poolList", function (data) {
+					console.log(data);
+					let container = $("#poolList");
+					for (let i = 0; i < data.length; i++) {
+						let el = data[i];
+						let block = `
+			           <div class="list-group-item list-group-item-action d-flex justify-content-between flex-row align-items-center py-0 px-2  ${
+							el.status == "busy" ? `busy` : ``
+						}">
+			             <button onclick="selectedPool='${el._id}';
+			             $.get('/api/poolAggregate?poolId=${el._id}', 
+						 function (data) {$("#chart").graphviz({url: data}); 
+						 $('#headerTitle').html('${el.name}');"
+						 class="list-group-item-button" style="color: inherit;">
+			               <div class="d-flex w-100 alighn-items-center flex-column">
+			                 <h6 class="list-group-item-name">${el.name}</h6>
+			                 ${
+									el.description
+										? `<small class="list-group-item-desc">` +
+										  el.description +
+										  `</small>`
+										: ``
+								}
+			               </div>
+			               <i class="load-spin fas fa-spinner d-flex align-items-center"></i>
+			             </button>
+			             <div class="d-flex list-group-item-controls">
+			               <form enctype="multipart/form-data" method="POST" target="hiddenframe" action="/api/csvPush" class="d-flex flex-column justify-content-center py-2 mr-1">
+			                 <input type="hidden" name="pool" value="${el._id}">
+			                 <label class="btn btn-secondary m-0"  data-toggle="tooltip"  title="Load CSV">
+			                   <input type="file" name="filename"  hidden onchange="this.form.submit();">
+			                   <i class="fas fa-file-upload"></i>
+			                 </label>
+			               </form>
+			               <form enctype="multipart/form-data" method="POST" target="hiddenframe" action="/api/poolRemove?id=${
+								el._id
+							}" class="d-flex flex-column justify-content-center py-2">
+			                 <input type="hidden" name="pool" value="${el._id}">
+			                 <label class="btn btn-danger m-0 list-group-item-delete"  data-toggle="tooltip"  title="Delete this pool">
+			                   <input type="submit" name="filename" hidden >
+			                   <i class="fas fa-trash-alt"></i>
+			                 </label>
+			               </form>
+			             </div>
+			           </div>
+			           `;
+						container.append(block);
+					}
+				});
+			}
+
+			loadPool();
+
+			$("#poolReload").click(function () {
+				$("#poolList").html("");
+				loadPool();
+			});
+		</script>
+
 	</body>
 </html>

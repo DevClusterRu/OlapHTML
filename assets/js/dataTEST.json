@@ -157,44 +157,50 @@
          "fromOperator": "1",
          "fromConnector": "outs",
          "toOperator": "2",
-         "toConnector": "ins"
+         "toConnector": "ins",
+         "_id": "60920986b096ad1a8f40331d"
      }, {
          "fromOperator": "2",
          "fromConnector": "outs",
          "toOperator": "3",
-         "toConnector": "ins"
+         "toConnector": "ins",
+         "_id": "60920986b096ad1a8f40331d"
      }, {
          "fromOperator": "3",
          "fromConnector": "outs",
          "toOperator": "4",
-         "toConnector": "ins"
-
+         "toConnector": "ins",
+         "_id": "60920986b096ad1a8f40331d"
      }, {
          "fromOperator": "4",
          "fromConnector": "outs",
          "toOperator": "5",
-         "toConnector": "ins"
-
+         "toConnector": "ins",
+         "_id": "60920986b096ad1a8f40331d"
      }, {
          "fromOperator": "3",
          "fromConnector": "outs",
          "toOperator": "6",
-         "toConnector": "ins"
+         "toConnector": "ins",
+         "_id": "60920986b096ad1a8f40331d"
      }, {
          "fromOperator": "2",
          "fromConnector": "outs",
          "toOperator": "6",
-         "toConnector": "ins"
+         "toConnector": "ins",
+         "_id": "60920986b096ad1a8f40331d"
      }, {
          "fromOperator": "6",
          "fromConnector": "outs",
          "toOperator": "7",
-         "toConnector": "ins"
+         "toConnector": "ins",
+         "_id": "60920986b096ad1a8f40331d"
      }, {
          "fromOperator": "5",
          "fromConnector": "outs",
          "toOperator": "1",
-         "toConnector": "ins"
+         "toConnector": "ins",
+         "_id": "60920986b096ad1a8f40331d"
      }]
 
  }

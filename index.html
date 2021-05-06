@@ -9,6 +9,8 @@
 
 		<title>MVP</title>
 		<link rel="stylesheet" href="/assets/css/graphviz.svg.css" />
+		<link rel="stylesheet" href="/assets/css/ion.rangeSlider.min.css" />
+		<link href="/assets/css/select2.min.css" rel="stylesheet" />
 		<!-- Custom fonts for this template-->
 		<link href="/assets/css/all.min.css" rel="stylesheet" type="text/css" />
 		<!-- Custom styles for this template-->
@@ -45,10 +47,7 @@
 								<h3>
 									Pool
 									<div class="form-check">
-										<label
-											class="form-check-label"
-											style="font-size: 15px"
-										>
+										<label class="form-check-label" style="font-size: 15px">
 											<input
 												type="checkbox"
 												class="form-check-input mt-1"
@@ -96,98 +95,80 @@
 							<div class="pool list-group" id="poolList"></div>
 						</div>
 					</div>
-					<div
-						class="sidebar__block tabs"
-						style="opacity: 0.6; pointer-events: none; display: none"
-					>
-						<nav>
-							<div class="nav nav-tabs" id="nav-tab" role="tablist">
-								<a
-									class="nav-item nav-link active"
-									id="nav-home-tab"
-									data-toggle="tab"
-									href="#nav-home"
-									role="tab"
-									aria-controls="nav-home"
-									aria-selected="true"
-									>Operator</a
-								>
-								<a
-									class="nav-item nav-link"
-									id="nav-profile-tab"
-									data-toggle="tab"
-									href="#nav-profile"
-									role="tab"
-									aria-controls="nav-profile"
-									aria-selected="false"
-									aria-disabled="true"
-									>Create Link</a
-								>
-								<a
-									class="nav-item nav-link"
-									id="nav-contact-tab"
-									data-toggle="tab"
-									href="#nav-contact"
-									role="tab"
-									aria-controls="nav-contact"
-									aria-selected="false"
-									>Link list</a
-								>
-							</div>
-						</nav>
-						<div class="tab-content" id="nav-tabContent">
-							<div
-								class="tab-pane fade show active"
-								id="nav-home"
-								role="tabpanel"
-								aria-labelledby="nav-home-tab"
-							>
-								<div class="sidebar__log"></div>
-							</div>
-							<div
-								class="tab-pane fade"
-								id="nav-profile"
-								role="tabpanel"
-								aria-labelledby="nav-profile-tab"
-							>
-								<div class="form-group">
-									<label for="exampleFormControlSelect1"
-										>Select parent</label
-									>
-									<select
-										class="form-control"
-										id="linkCreateParent"
-									></select>
-								</div>
-								<div class="form-group">
-									<label for="exampleFormControlSelect1"
-										>Select child</label
-									>
-									<select
-										class="form-control"
-										id="linkCreateChild"
-									></select>
-								</div>
-								<button
-									class="btn btn-primary chart-reset"
-									id="linkCreate"
-									data-toggle="tooltip"
-									data-placement="top"
-									title="Create new link"
-								>
-									Create new link
-								</button>
-							</div>
-							<div
-								class="tab-pane fade"
-								id="nav-contact"
-								role="tabpanel"
-								aria-labelledby="nav-contact-tab"
-							>
-								<div class="linksList"></div>
-							</div>
-						</div>
-					</div>
+ <div class="sidebar__block tabs">
+	<nav>
+		<div class="nav nav-tabs" id="nav-tab" role="tablist">
+			<a
+				class="nav-item nav-link active"
+				id="nav-home-tab"
+				data-toggle="tab"
+				href="#filter"
+				role="tab"
+				aria-selected="true"
+				>Filter</a
+			>
+			<a
+				class="nav-item nav-link"
+				id="nav-profile-tab"
+				data-toggle="tab"
+				href="#nav-profile"
+				role="tab"
+				aria-selected="false"
+				style="pointer-events: none; opacity: 0.6"
+				>N\A</a
+			>
+		</div>
+	</nav>
+	<div class="tab-content" id="nav-tabContent">
+		<div
+			class="tab-pane fade show active"
+			id="filter"
+			role="tabpanel"
+			aria-labelledby="nav-home-tab"
+		>
+			<h5>Filter by date</h5>
+			<div style="width: 88%; margin: 0 auto">
+				<input
+					type="text"
+					class="js-range-slider"
+					name="my_range"
+					value=""
+					id="filterDataRange"
+				/>
+			</div>
+			<hr />
+			<h5>Filter by event</h5>
+			<select
+				class="js-example-basic-single w-100"
+				name="event"
+				id="filterEvents"
+			></select>
+			<hr />
+			<h5>Filter by case</h5>
+			<select
+				class="js-example-basic-single w-100"
+				name="case"
+				id="filterCase"
+			></select>
+		</div>
+		<div
+			class="tab-pane fade"
+			id="nav-profile"
+			role="tabpanel"
+			aria-labelledby="nav-profile-tab"
+		>
+			N\A
+		</div>
+		<button
+			type="submit"
+			class="btn btn-primary mt-3 ml-auto d-block w-50"
+			id="filterSubmit"
+		>
+			Filter
+		</button>
+	</div>
+</div>
+
 				</div>
 			</div>
 			<!-- End of Sidebar -->
@@ -256,6 +237,7 @@
 				<!-- Begin Page Content -->
 				<div class="chart-inner">
 					<div id="chart"></div>
+					<div class="node_info" id="node_info"></div>
 				</div>
 
 				<!-- End of Footer -->
@@ -403,9 +385,11 @@
 		<script src="/assets/js/bootstrap.min.js"></script>
 		<script src="/assets/js/jquery.graphviz.svg.js"></script>
 		<script src="/assets/js/svg-pan-zoom.min.js"></script>
+		<script src="/assets/js/select2.min.js"></script>
+		<script src="/assets/js/ion.rangeSlider.min.js"></script>
 		<!-- Bootstrap core JavaScript-->
-
-		<script type="text/javascript">
+		<!-- MAIN SCRIPT -->
+		<script>
 			$("html").tooltip({
 				selector: '[data-toggle="tooltip"]',
 			});
@@ -417,11 +401,43 @@
 			$(".dropdown-menu").click(function (e) {
 				e.stopPropagation();
 			});
+			//
 			$(".sidebarBtn").click(function () {
 				$("#sidebar").toggleClass("show");
 				$(this).toggleClass("toggled");
 			});
+		</script>
+		<!-- GRAPHICS -->
+		<script type="text/javascript">
+			// SELECT POOL
+			function selectPool(id) {
+				selectedPool = `${id}`;
+				$.get(`/api/poolAggregate?poolId=${selectedPool}`, function (data) {
+					initChart(data);
 
+					// initChart(data.Filename);
+					// filterEventsList(data.Events)
+					// filterCaseList(data.Objects)
+				});
+			}
+			// GENERATE EVENT LIST
+			function filterEventsList(data) {
+				let select = $("#filterEvents");
+				$(select).html("");
+				data.forEach((el) => {
+					let option = `<option value="${el._id}">${el._id}</option>`;
+					select.append(block);
+				});
+			}
+			function filterCaseList(data) {
+				let select = $("#filterCase");
+				$(select).html("");
+				data.forEach((el) => {
+					let option = `<option value="${el._id}">${el._id}</option>`;
+					select.append(block);
+				});
+			}
+			// GENERATE CHART
 			function initChart(url) {
 				$("#chart").unbind().removeData();
 
@@ -437,22 +453,37 @@
 							$set = $set.add(gv.linkedTo(this, true));
 							gv.highlight($set, true);
 							gv.bringToFront($set);
+							console.log();
+							$("#node_info").html("");
+							$("#node_info").append(
+								"<div class='node_info_inner'></div>"
+							);
+							$("#node_info .node_info_inner").append(
+								`<div class="node_info-name">${$(this).attr(
+									"data-name"
+								)}</div>`
+							);
 						});
 						$(document).keydown(function (evt) {
 							if (evt.keyCode == 27) {
 								gv.highlight();
+								$("#node_info").html("");
 							}
 						});
 						svgPanZoom("#graphvizSVG");
+						$("g[data-name='[Start]']")
+							.find("ellipse")
+							.attr("fill", "#4482c4");
+						$("g[data-name='[End]']")
+							.find("ellipse")
+							.attr("fill", "#4482c4");
+
+						$("g[data-name='[Start]']").find("text").attr("fill", "#black");
+						$("g[data-name='[End]']").find("text").attr("fill", "#black");
 					},
 				});
 			}
-
-			// /api/poolAggregate?poolId=${el._id}
-			// /assets/js/dataTest.json
-			// /api/poolList
-			// /assets/js/Pool.json
-
+			// GENERATE POOL LIST
 			function loadPool() {
 				$("#poolList").html("");
 
@@ -465,12 +496,9 @@
 			           <div class="list-group-item list-group-item-action d-flex justify-content-between flex-row align-items-center py-0 px-2  ${
 							el.status == "busy" ? `busy` : ``
 						}">
-			             <button onclick="selectedPool='${el._id}';
-									$.get('/api/poolAggregate?poolId=${el._id}',
-									function (data) {
-										initChart(data);
-										$('#headerTitle').html('${el.name}')
-									});"
+			             <button onclick="selectPool('${el._id}');$('#headerTitle').html('${
+							el.name
+						}');"
 						 class="list-group-item-button" style="color: inherit;">
 			               <div class="d-flex w-100 alighn-items-center flex-column">
 			                 <h6 class="list-group-item-name">${el.name}</h6>
@@ -506,52 +534,23 @@
 					}
 				});
 			}
-
+			// INIT LOAD POOL LIST
 			loadPool();
-
+			// POOL REALOAD BUTTON
 			$("#poolReload").click(function () {
 				loadPool();
 			});
-
+			// CREATE NEW POOL
 			$("#createNewPool").click(function () {
 				let newPoolName = $("#newPoolName").val();
 				let newPoolDescription = $("#newPoolDescription").val();
 				if (newPoolName && newPoolDescription) {
 					$.get(
 						`/api/poolCreate?name=${newPoolName}&description=${newPoolDescription}`,
-						function (data) {
-							$("#poolList").append(
-								`<div class="list-group-item list-group-item-action d-flex justify-content-between flex-row align-items-center py-0 px-2  ">
-			           <button onclick="$.get('/api/poolAggregate?poolId=${data}',function (data) {initChart(data); $('#headerTitle').html('${newPoolName}');})" class="list-group-item-button" style="color: inherit">
-			             <div class="d-flex w-100 alighn-items-center flex-column">
-			               <h6 class="list-group-item-name">${newPoolName}</h6>
-			               ${
-								newPoolDescription
-									? `<small class="list-group-item-desc">` +
-									  newPoolDescription +
-									  `</small>`
-									: ``
-							}
-			             </div>
-			             <i class="load-spin fas fa-spinner d-flex align-items-center"></i>
-			           </button>
-			           <div class="d-flex list-group-item-controls">
-			             <form enctype="multipart/form-data" method="POST" target="hiddenframe" action="/api/csvPush" class="d-flex flex-column justify-content-center py-2 mr-1">
-			               <input type="hidden" name="pool" value="${data}">
-			               <label class="btn btn-secondary m-0"  data-toggle="tooltip"  title="Load CSV">
-			                 <input type="file" name="filename"  hidden onchange="this.form.submit();">
-			                 <i class="fas fa-file-upload"></i>
-			               </label>
-			             </form>
-						 <div  class="d-flex flex-column justify-content-center py-2">
-								<button class="btn btn-danger m-0 list-group-item-delete" onclick="$.get('/api/poolRemove?poolId=${data}'); setTimeout(() => {loadPool()}, 50);">
-									<i class="fas fa-trash-alt"></i>
-								</button>
-							</div>
-			           </div>
-			         </div>
-			         `
-							);
+						() => {
+							setTimeout(() => {
+								loadPool();
+							}, 100);
 						}
 					);
 				} else {
@@ -583,38 +582,70 @@
 					this.checked = false;
 				}
 			});
+		</script>
+		<!-- Filter -->
+		<script>
+			let dataStart = "2020-11-10T00:17:51.338Z";
+			let dataEnd = "2020-11-25T00:17:51.338Z";
+			let dateFrom, dateTo, selectEvents, selectCase;
+			let filterDataRange = $("#filterDataRange");
+			let filterSubmit = $("#filterSubmit");
 
-			// CONTEXT MENU
-			// $("body")
-			// 	.on("contextmenu", function (e) {
-			// 		var top = e.pageY - 10;
-			// 		var left = e.pageX - 90;
-			// 		let target = e.target;
-			// 		let targetPerent = target.parentElement;
-			// 		$("#context-menu")
-			// 			.css({
-			// 				display: "block",
-			// 				top: top,
-			// 				left: left,
-			// 			})
-			// 			.addClass("show");
-			// 		return false; //blocks default Webbrowser right click menu
-			// 	})
-			// 	.on("click", function () {
-			// 		$("#context-menu").removeClass("show").hide();
-			// 	});
+			function dateToTS(date) {
+				console.log(date);
+				return date.valueOf();
+			}
 
-			// $("#context-menu a").on("click", function () {
-			// 	$(this).parent().removeClass("show").hide();
-			// });
+			function tsToDate(ts) {
+				var d = new Date(ts);
+				// return new Date(ts).toISOString();
+				return d.toLocaleDateString("en-US", {
+					year: "numeric",
+					month: "short",
+					day: "numeric",
+				});
+			}
 
-			// document.querySelectorAll(".reload-chart").forEach((element) => {
-			// 	$(element).click(function () {
-			// 		$.get(`/api/poolAggregate?poolId=${selectedPool}`, function (data) {
-			// 			$("#chart").graphviz({ url: data });
-			// 		});
-			// 	});
-			// });
+			filterDataRange.ionRangeSlider({
+				skin: "big",
+				type: "double",
+				// grid: true,
+				// grid_snap: true,
+				drag_interval: true,
+				min: dateToTS(new Date(2020, 10, 1)),
+				max: dateToTS(new Date(2020, 11, 1)),
+				from: dateToTS(new Date(2020, 10, 8)),
+				to: dateToTS(new Date(2020, 10, 23)),
+				prettify: tsToDate,
+				onFinish: function (data) {
+					dateFrom = new Date(data.from).toISOString();
+					dateTo = new Date(data.to).toISOString();
+					console.log(dateFrom, dateTo);
+					// $.get(
+					// 	`/api/poolAggregate?poolId=${selectedPool}&dateFrom=${dateFrom}&dateTo=${dateTo}`,
+					// 	function (data) {
+					// 		// initChart(data);
+					// 		console.log(date);
+					// 	}
+					// );
+				},
+			});
+
+			$(filterSubmit).click(function () {
+				console.log(dateFrom, dateTo);
+				$.get(
+					`/api/poolAggregate?poolId=${selectedPool}&dateFrom=${
+						dateFrom ? dateFrom : dataStart
+					}&dateTo=${dateTo ? dateTo : dataEnd}`,
+					function (data) {
+						// initChart(data);
+
+						console.log(date);
+					}
+				);
+			});
+
+			$(".js-example-basic-single").select2();
 		</script>
 
 	</body>

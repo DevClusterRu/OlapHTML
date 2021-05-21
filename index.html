@@ -138,13 +138,13 @@
 	</div>
 	<hr class="my-2" />
 	<div class="pt-2 px-3">
-		<h5>Filter by case</h5>
+		<!-- <h5>Filter by case</h5>
 		<select
 			class="js-example-basic-single w-100"
 			name="case"
 			multiple
 			id="filterCase"
-		></select>
+		></select> -->
 		<button
 			type="submit"
 			class="btn btn-primary mt-3 ml-auto d-block w-50"
@@ -497,6 +497,14 @@
 				cubeDataLineDays = [];
 		</script>
 
+		<script>
+			var iframe = document.querySelector("#hiddenframe");
+
+			iframe.onload = function () {
+				location.reload();
+			};
+		</script>
+
 		<script src="/assets/js/jquery-2.1.3.min.js"></script>
 		<script src="/assets/js/jquery.mousewheel.min.js"></script>
 		<script src="/assets/js/jquery.color.js"></script>
@@ -562,12 +570,18 @@
 					data: JSON.stringify({ poolId: `${selectedPool}` }),
 					contentType: "application/json; charset=utf-8",
 					// dataType: "json",
-					success: function (data) {
-						console.log(data);
-						initChart(data);
-						// filterEventsList(data.Events);
-						// filterCaseList(data.Objects);
-						// filterGetData(data.MinTime, data.MaxTime);
+					success: function (response) {
+						// setInterval(() => {
+						// 	if(response) {
+
+						// 	}
+						// }, 100);
+						let JSONparse = JSON.parse(response);
+						console.log(JSONparse);
+						initChart(JSONparse.data.Filename);
+						filterEventsList(JSONparse.data.Events);
+						// filterCaseList(data.Links);
+						filterGetData(JSONparse.data.MinDate, JSONparse.data.MaxDate);
 					},
 				});
 				// $.get(`/api/poolAggregate?poolId=${selectedPool}`, function (data) {
@@ -669,7 +683,8 @@
 			               <form enctype="multipart/form-data" method="POST" target="hiddenframe" action="/api2/csvPush" class="d-flex flex-column justify-content-center py-2 mr-1">
 			                 <input type="hidden" name="poolId" value="${el._id}">
 			                 <label class="btn btn-secondary m-0" title="Load CSV">
-			                   <input type="file" name="filename"  hidden onchange="this.form.submit();">
+			                   <input type="file" name="filename" hidden 
+							   onchange="this.parentElement.parentElement.parentElement.parentElement.style.cssText = 'opacity:.7; cursor:not-allowed; pointer-events: none'; this.form.submit();">
 			                   <i class="fas fa-file-upload"></i>
 			                 </label>
 			               </form>
@@ -772,17 +787,18 @@
 							// 		initChart(data.Filename);
 							// 	}
 							// );
-							$.ajax({
-								url: `/api2/poolAggregate`,
-								type: "POST",
+							// $.ajax({
+							// 	url: `/api2/poolAggregate`,
+							// 	type: "POST",
 
-								data: JSON.stringify({ poolId: `${selectedPool}` }),
-								contentType: "application/json; charset=utf-8",
-								// dataType: "json",
-								success: function (data) {
-									initChart(data);
-								},
-							});
+							// 	data: JSON.stringify({ poolId: `${selectedPool}` }),
+							// 	contentType: "application/json; charset=utf-8",
+							// 	// dataType: "json",
+							// 	success: function (data) {
+							// 		initChart(data);
+							// 	},
+							// });
+							selectPool(selectedPool);
 						}, 10000);
 					} else {
 						console.log("Disabled AutoUpdate");
@@ -804,8 +820,8 @@
 				data.forEach((el) => {
 					let option = `<li class="js-item">
 							<label>
-								<input type="checkbox" name="events" hidden value="${el._id}" />
-								<span>${el._id}</span>
+								<input type="checkbox" name="events" hidden value="${el}" />
+								<span>${el}</span>
 							</label>
 						</li>`;
 					select.append(option);
@@ -918,11 +934,18 @@
 				$.ajax({
 					url: `/api2/poolAggregate`,
 					type: "POST",
-					data: JSON.stringify({ poolId: `${selectedPool}` }),
+					data: JSON.stringify({
+						poolId: `${selectedPool}`,
+						Events: json.events,
+						MaxDate: json.dataRangeEnd,
+						MinDate: json.dataRangeStart,
+					}),
 					contentType: "application/json; charset=utf-8",
 					// dataType: "json",
-					success: function (data) {
-						initChart(data);
+					success: function (response) {
+						let JSONparse = JSON.parse(response);
+						console.log(JSONparse);
+						initChart(JSONparse.data.Filename);
 					},
 				});
 				// $.get(
